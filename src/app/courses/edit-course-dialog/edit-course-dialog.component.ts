@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../reducers';
 import { Store } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { courseUpdated } from '../courses.actions';
+// import { courseUpdated } from '../courses.actions';
 
 @Component({
     selector: 'course-dialog',
@@ -65,7 +65,7 @@ export class EditCourseDialogComponent {
             changes: course
         };
 
-        this.store.dispatch(courseUpdated({ update }));
+        // this.store.dispatch(courseUpdated({ update }));
 
         this.dialogRef.close();
     }
