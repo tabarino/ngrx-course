@@ -18,7 +18,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { metaReducers, reducers } from './reducers';
 import { AuthGuard } from './auth/auth.guard';
-import { EntityDataModule } from '@ngrx/data';
+import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 
 const routes: Routes = [
     {
@@ -31,6 +31,11 @@ const routes: Routes = [
         redirectTo: '/'
     }
 ];
+
+const defaultDataServiceConfig: DefaultDataServiceConfig = {
+    root: 'http://localhost:4200/api',
+    timeout: 3000
+};
 
 @NgModule({
     declarations: [
@@ -65,7 +70,8 @@ const routes: Routes = [
             routerState: RouterState.Minimal
         })
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    providers: [{ provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }]
 })
 
 export class AppModule {
