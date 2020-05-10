@@ -49,7 +49,8 @@ const entityMetadataMap: EntityMetadataMap = {
         sortComparer: compareCourses,
         entityDispatcherOptions: {
             optimisticAdd: false,
-            optimisticUpdate: true
+            optimisticUpdate: true,
+            optimisticDelete: true
         }
     }
 };
