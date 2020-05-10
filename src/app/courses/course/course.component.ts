@@ -16,6 +16,7 @@ import { LessonEntityService } from '../services/lesson-entity.service';
 export class CourseComponent implements OnInit {
     course$: Observable<Course>;
     lessons$: Observable<Lesson[]>;
+    loading$: Observable<boolean>;
     displayedColumns = ['seqNo', 'description', 'duration'];
     nextPage = 0;
 
@@ -33,9 +34,26 @@ export class CourseComponent implements OnInit {
             map(courses => courses.find(course => course.url === courseUrl))
         );
 
-        this.lessons$ = of([]);
+        this.lessons$ = this.lessonService.entities$.pipe(
+            withLatestFrom(this.course$),
+            tap(([lessons, course]) => {
+                if (this.nextPage === 0) {
+                    this.loadLessonsPage(course);
+                }
+            }),
+            map(([lessons, course]) => lessons.filter(lesson => lesson.courseId === course.id))
+        );
+
+        this.loading$ = this.lessonService.loading$.pipe(delay(0));
     }
 
     loadLessonsPage(course: Course) {
+        this.lessonService.getWithQuery({
+            'courseId': course.id.toString(),
+            'pageNumber': this.nextPage.toString(),
+            'pageSize': '3'
+        });
+
+        this.nextPage++;
     }
 }
